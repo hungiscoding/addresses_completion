@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Address suggestion</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      function myFunction() {
+        console.log($('#myInput').val());
+
+        var socket = io();
+        socket.emit('address message', $('#myInput').val());
+
+        socket.on('address message', function(msg){
+          if (msg == 'clear') {
+            $('#myUL').empty();
+          } else {
+            $('#myUL').append($('<li>').text(msg)); 
+          }
+          console.log(msg);
+        });
+      }
+
+      var x = document.getElementById("demo");
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition); 
+        } else { 
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+
+      function showPosition(position) {
+        var socket = io();
+        socket.emit('with location', $('#myInput').val(), position.coords.latitude, position.coords.longitude);
+        socket.on('with location', function(msg){
+          if (msg == 'clear') {
+            $('#myUL').empty();
+          } else {
+            $('#myUL').append($('<li>').text(msg)); 
+          }
+          console.log(msg);
+        });
+        console.log(position.coords.latitude, position.coords.longitude);
+      }
+
+    </script>
+  </head>
+  <body>
+
+
+    <input id="myInput" autocomplete="off" onkeyup="myFunction()"/>
+    <p id="demo"></p>
+    <button onclick="getLocation();">With Location</button>
+
+    <ul id="myUL"></ul>
+
+  </body>
+</html>
+    
