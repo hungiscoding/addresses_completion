@@ -3,6 +3,6 @@ elasticsearch-dsl==6.1.0
 ipaddress==1.0.22
 pkg-resources==0.0.0
 python-dateutil==2.7.3
-PyYAML==3.12
+PyYAML==5.4
 six==1.11.0
 urllib3==1.22
